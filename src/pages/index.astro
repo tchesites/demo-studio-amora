@@ -43,12 +43,12 @@ const jsonLd = {
   title="Studio Amora — unhas com identidade em Sapucaia do Sul"
   description={descricao}
 >
-  <div class="pagina">
+  <div class="pagina" id="topo">
     <header class="topo">
-      <a class="marca" href="#conteudo" aria-label="Studio Amora">
+      <a class="marca" href="#topo" aria-label="Studio Amora">
         <Amora />
       </a>
-      <p class="status" id="status">Terça a sexta · 9h às 19h</p>
+      <p class="status" id="status">Terça a sexta, 9h às 19h</p>
     </header>
 
     <main id="conteudo">
@@ -115,7 +115,7 @@ const jsonLd = {
 
       <section class="citacao" aria-label="Depoimento de cliente">
         <blockquote>“{negocio.depoimento.texto}”</blockquote>
-        <p class="autor">{negocio.depoimento.autora} · {negocio.depoimento.desde}</p>
+        <p class="autor">{negocio.depoimento.autora}, {negocio.depoimento.desde}</p>
         <p class="google">
           {negocio.google.nota} de 5 em {negocio.google.total} avaliações no
           <a href={negocio.google.url} target="_blank" rel="noopener">Google</a>
@@ -127,7 +127,7 @@ const jsonLd = {
 
         <address class="endereco">
           {negocio.endereco.rua}
-          <span>{negocio.endereco.bairro} · {negocio.endereco.cidade}</span>
+          <span>{negocio.endereco.bairro}, {negocio.endereco.cidade}</span>
         </address>
 
         <dl class="horarios">
@@ -172,7 +172,7 @@ const jsonLd = {
       const aberto = hoje && minutos >= hoje.abre * 60 && minutos < hoje.fecha * 60;
 
       if (aberto) {
-        alvo.textContent = `Aberta agora · até ${hoje.fecha}h`;
+        alvo.textContent = `Aberta agora, até ${hoje.fecha}h`;
         alvo.dataset.aberto = 'true';
       } else {
         alvo.dataset.aberto = 'false';
@@ -184,9 +184,9 @@ const jsonLd = {
           if (!proximo) continue;
 
           if (i === 0 && minutos < proximo.abre * 60) {
-            alvo.textContent = `Fechada · abre hoje às ${proximo.abre}h`;
+            alvo.textContent = `Fechada, abre hoje às ${proximo.abre}h`;
           } else {
-            alvo.textContent = `Fechada · abre ${dias[proximoDia]} às ${proximo.abre}h`;
+            alvo.textContent = `Fechada, abre ${dias[proximoDia]} às ${proximo.abre}h`;
           }
 
           break;
