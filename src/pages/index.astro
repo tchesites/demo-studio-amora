@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Amora from '../components/Amora.astro';
+import CtaWhats from '../components/CtaWhats.astro';
+import { negocio, precoBRL } from '../data/negocio.js';
+import { url } from '../utils/url.js';
+
+const descricao =
+  'Studio de unhas em Sapucaia do Sul com atendimento individual e hora marcada. Alongamento em fibra, esmaltação em gel, blindagem e manutenção.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NailSalon',
+  name: negocio.nome,
+  description: `Projeto demonstrativo criado pela Tchê Sites. Marca, endereço e telefone fictícios. ${descricao}`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: negocio.endereco.rua,
+    addressLocality: 'Sapucaia do Sul',
+    addressRegion: 'RS',
+    addressCountry: 'BR',
+  },
+  telephone: '+55 51 90000-0000',
+  priceRange: 'R$ 70–180',
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '19:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '09:00',
+      closes: '17:00',
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Studio Amora — unhas com identidade em Sapucaia do Sul"
+  description={descricao}
+>
+  <div class="pagina">
+    <header class="topo">
+      <a class="marca" href="#conteudo" aria-label="Studio Amora">
+        <Amora />
+      </a>
+      <p class="status" id="status">Terça a sexta · 9h às 19h</p>
+    </header>
+
+    <main id="conteudo">
+      <div class="abertura">
+        <h1 class="wordmark" aria-label="Studio Amora">amora</h1>
+        <p class="descritor">studio de unhas</p>
+
+        <p class="tagline">{negocio.tagline}</p>
+        <p class="apoio">{negocio.apoio}</p>
+
+        <CtaWhats />
+
+        <nav class="atalhos" aria-label="Links do estúdio">
+          <a href={negocio.instagram} target="_blank" rel="noopener">Instagram</a>
+          <a href={negocio.google.url} target="_blank" rel="noopener">
+            {negocio.google.nota} no Google
+          </a>
+          <a href={negocio.maps} target="_blank" rel="noopener">Como chegar</a>
+        </nav>
+      </div>
+
+      <section id="servicos" class="secao" aria-labelledby="titulo-servicos">
+        <h2 id="titulo-servicos">Serviços e valores</h2>
+        <p class="nota">
+          Valores de referência. O orçamento fecha na conversa, depois de ver a tua unha.
+        </p>
+
+        <ul class="menu">
+          {negocio.servicos.map((servico) => (
+            <li>
+              <div class="linha">
+                <h3>{servico.nome}</h3>
+                <span class="pontos" aria-hidden="true"></span>
+                <span class="preco">{precoBRL(servico.preco)}</span>
+              </div>
+              <div class="sub">
+                <p>{servico.descricao}</p>
+                <span class="duracao">{servico.duracao}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="trabalhos" class="secao" aria-labelledby="titulo-trabalhos">
+        <h2 id="titulo-trabalhos">Do estúdio</h2>
+        <p class="nota">Trabalhos recentes, sem filtro.</p>
+
+        <div class="galeria">
+          {negocio.galeria.map((foto, indice) => (
+            <figure>
+              <img
+                src={url(foto.arquivo)}
+                alt={foto.alt}
+                width="1400"
+                height="2100"
+                loading={indice > 1 ? 'lazy' : 'eager'}
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="citacao" aria-label="Depoimento de cliente">
+        <blockquote>“{negocio.depoimento.texto}”</blockquote>
+        <p class="autor">{negocio.depoimento.autora} · {negocio.depoimento.desde}</p>
+        <p class="google">
+          {negocio.google.nota} de 5 em {negocio.google.total} avaliações no
+          <a href={negocio.google.url} target="_blank" rel="noopener">Google</a>
+        </p>
+      </section>
+
+      <section id="visita" class="secao" aria-labelledby="titulo-visita">
+        <h2 id="titulo-visita">Onde fica</h2>
+
+        <address class="endereco">
+          {negocio.endereco.rua}
+          <span>{negocio.endereco.bairro} · {negocio.endereco.cidade}</span>
+        </address>
+
+        <dl class="horarios">
+          {negocio.horarios.map((horario) => (
+            <div>
+              <dt>{horario.dias}</dt>
+              <dd>{horario.horas}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <a class="link-maps" href={negocio.maps} target="_blank" rel="noopener">
+          Abrir no Google Maps
+        </a>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p>Projeto demonstrativo. Marca, endereço, telefone e avaliações são fictícios.</p>
+      <p>
+        Feito pela
+        <a href="https://tchesites.com.br" target="_blank" rel="noopener">Tchê Sites</a>.
+      </p>
+    </footer>
+  </div>
+
+  <div class="barra" data-visivel="false">
+    <CtaWhats />
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <script define:vars={{ horarios: negocio.horarios }}>
+    const alvo = document.getElementById('status');
+
+    if (alvo) {
+      const dias = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+      const agora = new Date();
+      const dia = agora.getDay();
+      const minutos = agora.getHours() * 60 + agora.getMinutes();
+      const hoje = horarios.find((h) => h.diasSemana.includes(dia));
+      const aberto = hoje && minutos >= hoje.abre * 60 && minutos < hoje.fecha * 60;
+
+      if (aberto) {
+        alvo.textContent = `Aberta agora · até ${hoje.fecha}h`;
+        alvo.dataset.aberto = 'true';
+      } else {
+        alvo.dataset.aberto = 'false';
+
+        for (let i = 0; i < 7; i += 1) {
+          const proximoDia = (dia + i) % 7;
+          const proximo = horarios.find((h) => h.diasSemana.includes(proximoDia));
+
+          if (!proximo) continue;
+
+          if (i === 0 && minutos < proximo.abre * 60) {
+            alvo.textContent = `Fechada · abre hoje às ${proximo.abre}h`;
+          } else {
+            alvo.textContent = `Fechada · abre ${dias[proximoDia]} às ${proximo.abre}h`;
+          }
+
+          break;
+        }
+      }
+    }
+
+    // A barra fixa só entra quando o CTA da abertura sai de cena.
+    const barra = document.querySelector('.barra');
+    const ctaAbertura = document.querySelector('.abertura .cta');
+
+    if (barra && ctaAbertura && 'IntersectionObserver' in window) {
+      const observador = new IntersectionObserver(
+        ([entrada]) => {
+          barra.dataset.visivel = entrada.isIntersecting ? 'false' : 'true';
+        },
+        { rootMargin: '0px 0px -12% 0px' }
+      );
+
+      observador.observe(ctaAbertura);
+    }
+  </script>
+</BaseLayout>

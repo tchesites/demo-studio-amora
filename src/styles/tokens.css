@@ -1,0 +1,21 @@
+:root {
+  /* Ameixa domina a página; creme é o texto; terracota fica só na ação. */
+  --ameixa: #2a1420;
+  --ameixa-fundo: #1e0d16;
+  --ameixa-alto: #3a1d2a;
+  --creme: #f7f1e8;
+  --creme-suave: rgba(247, 241, 232, 0.72);
+  --creme-fraco: rgba(247, 241, 232, 0.55);
+  --dourado: #c9a66b;
+  --terracota: #d07a5e;
+  --terracota-claro: #e08d70;
+  --linha: rgba(201, 166, 107, 0.22);
+  --linha-forte: rgba(201, 166, 107, 0.4);
+
+  --fonte-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --fonte-texto: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --coluna: 520px;
+  --margem: clamp(1.35rem, 5.5vw, 2.25rem);
+  --raio: 3px;
+}
